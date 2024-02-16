@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList } from "react-native";
+import { View, Text, TextInput, FlatList, ActivityIndicator } from "react-native";
 import { styles } from "./styles";
 import { MagnifyingGlassPlus } from "phosphor-react-native";
 import { useEffect, useState } from "react";
@@ -14,8 +14,15 @@ interface Movie {
 
 export const Home = () => {
   const [discoveryMovies, setDiscoveryMovies] = useState<Movie[]>([]);
+  const [searchResultMovies, setSearchResultMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [noResukt, setNoResult] = useState(false);
+  const [search, setSearch] = useState("");
+
+
   const loadMoreData = async () => {
+    setLoading(true);
     const response = await api.get("/movie/popular", {
       params:{
         page,
@@ -23,11 +30,40 @@ export const Home = () => {
     });
     setDiscoveryMovies([...discoveryMovies, ...response.data.results]);
     setPage(page + 1);
+    setLoading(false)
   };
 
   useEffect(() => {
     loadMoreData();
   }, []);
+
+
+  const searchMovie = async (query: string ) => {
+    setLoading(true);
+    const response = await api.get("/search/movie", {
+      params:{
+        query,
+      }
+    });
+
+    if(response.data.results.length === 0) {
+      setNoResult(true);
+    }else{
+      setSearchResultMovies(response.data.results)
+    }
+    setLoading(false)
+  }
+
+  const handleSearch = (text: string) => {
+    setSearch(text)
+    if(text.length >2){
+      searchMovie(text);
+    }else{
+      setSearchResultMovies([])
+    }
+  };
+
+  const movieData = search.length > 2 ? searchResultMovies : discoveryMovies;
 
   return (
     <View style={styles.container}>
@@ -38,13 +74,15 @@ export const Home = () => {
           placeholderTextColor={"#fff"}
           placeholder="Buscar"
           style={styles.input}
+          value={search}
+          onChangeText={handleSearch}
         />
         <MagnifyingGlassPlus color="#FFF" size={25} weight="light" />
       </View>
       </View>
       <View>
         <FlatList
-          data={discoveryMovies}
+          data={movieData}
           numColumns={3}
           renderItem={(item) => <CardMovies data={item.item} />}
           showsVerticalScrollIndicator={false}
@@ -55,6 +93,7 @@ export const Home = () => {
           onEndReached={() => loadMoreData()}
           onEndReachedThreshold={0.5}
         />
+        {loading && <ActivityIndicator size={50} color="#0296e6"/>}
       </View>
     </View>
   );
