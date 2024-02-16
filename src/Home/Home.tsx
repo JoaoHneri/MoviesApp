@@ -21,7 +21,8 @@ export const Home = () => {
         page,
       }
     });
-    setDiscoveryMovies(response.data.results);
+    setDiscoveryMovies([...discoveryMovies, ...response.data.results]);
+    setPage(page + 1);
   };
 
   useEffect(() => {
@@ -51,6 +52,8 @@ export const Home = () => {
             padding: 35,
             paddingBottom: 100,
           }}
+          onEndReached={() => loadMoreData()}
+          onEndReachedThreshold={0.5}
         />
       </View>
     </View>
