@@ -1,9 +1,9 @@
 import { View, Text, TextInput, FlatList, ActivityIndicator } from "react-native";
 import { styles } from "./styles";
-import { MagnifyingGlassPlus } from "phosphor-react-native";
+import { MagnifyingGlass, MagnifyingGlassPlus } from "phosphor-react-native";
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
-import { CardMovies } from "../components/CardMovies/CardMovies";
+import { api } from "../../services/api";
+import { CardMovies } from "../../components/CardMovies/CardMovies";
 
 interface Movie {
   id: number;
@@ -17,7 +17,7 @@ export const Home = () => {
   const [searchResultMovies, setSearchResultMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [noResukt, setNoResult] = useState(false);
+  const [noResult, setNoResult] = useState(false);
   const [search, setSearch] = useState("");
 
 
@@ -77,8 +77,15 @@ export const Home = () => {
           value={search}
           onChangeText={handleSearch}
         />
-        <MagnifyingGlassPlus color="#FFF" size={25} weight="light" />
+        <MagnifyingGlass color="#FFF" size={25} weight="light" />
       </View>
+      {noResult && search.length > 0 && (
+        <Text style={styles.noResult}>
+          Nenhun filme encontrado para "{search}"
+        </Text>
+      )
+      }
+
       </View>
       <View>
         <FlatList
@@ -92,6 +99,7 @@ export const Home = () => {
           }}
           onEndReached={() => loadMoreData()}
           onEndReachedThreshold={0.5}
+          style={styles.contentFlat}
         />
         {loading && <ActivityIndicator size={50} color="#0296e6"/>}
       </View>

@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     header:{
         padding: 20,
     },
+    noResult:{
+        color: '#FFFFFF',
+        fontSize:18,
+        textAlign: 'center',
+        marginVertical:10,
+    },
     headerText: {
         marginTop: 30,
         fontSize: 18,
@@ -21,7 +27,6 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 16,
         marginTop: 24,
-        marginBottom: 20,
         color: '#67686D',
         alignItems: 'center',
         justifyContent: "space-between", 
@@ -32,5 +37,8 @@ export const styles = StyleSheet.create({
         width: '80%',
         paddingLeft: 16,
     },
+    contentFlat:{
+        marginBottom: 80,
+    }
   });
   
