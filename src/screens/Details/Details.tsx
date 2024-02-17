@@ -149,7 +149,7 @@ export const Details = () => {
           <View style={styles.about}>
             <Text style={styles.aboutText}>Sinopse</Text>
             <Text style={styles.aboutText}>
-              S
+              
               {movieDetails?.overview === ""
                 ? "Ops! Parece que esse filme ainda não tem sinopse :("
                 : movieDetails?.overview}

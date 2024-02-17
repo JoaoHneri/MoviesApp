@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { api } from "../services/api";
 
 type Movie = {
   id: number;
@@ -72,6 +73,28 @@ export function MovieProvider({ children }: MovieProviderProps) {
     [favoriteMovies]
   );
 
+
+  const parsedFavoriteMovies = useMemo(() => favoriteMovies, [favoriteMovies]);
+
+  const getAllFavoriteMovies = useCallback(async () => {
+    try {
+      const movies = await Promise.all(
+        parsedFavoriteMovies.map(async (movieId: number) => {
+          const response = await api.get<Movie>(`/movie/${movieId}`);
+          return response.data;
+        })
+      );
+      setAllFavoriteMovies(movies);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [parsedFavoriteMovies]);
+
+  useEffect(() => {
+    getAllFavoriteMovies();
+  }, [parsedFavoriteMovies, getAllFavoriteMovies]);
+
+  
   const contextData: MovieContextData = {
     favoriteMovies,
     allFavoriteMovies,
