@@ -40,5 +40,36 @@ export const styles = StyleSheet.create({
         fontSize:  18,
         lineHeight: 27,
         fontWeight: "700",
-      }
+      },
+      description:
+      {width: "100%",
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "center",
+      marginTop: 170,},
+
+      descriptionGroup: 
+      {    flexDirection: "row",
+      alignItems: "center",
+      gap: 2,},
+      
+      descriptionText:
+       {
+        marginRight: 10,
+        color: "#92929D",
+      },
+
+      descriptionText1:
+       {
+        marginRight: 10,
+        color: "#FF8766",
+      },
+      about:{
+        padding: 20.
+
+      },
+      aboutText:{
+        color: "#FFF",
+        textAlign: "justify"
+      },
 })

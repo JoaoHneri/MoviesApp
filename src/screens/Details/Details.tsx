@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { api } from "../../services/api";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { styles } from "./styles";
-import { BookmarkSimple, CaretLeft } from "phosphor-react-native";
+import {
+  BookmarkSimple,
+  CalendarBlank,
+  CaretLeft,
+  Clock,
+  Star,
+} from "phosphor-react-native";
 
 type MovieDetails = {
   id: number;
@@ -43,10 +49,25 @@ export const Details = () => {
     fetchMovieDetails();
   }, [movieId]);
 
+  function getYear(data: string) {
+    const ano = new Date(data).getFullYear();
+    return ano;
+  }
+
+  if (!movieDetails) {
+    return null;
+  }
+
+  const navigation = useNavigation();
+
+  const backToHome = () =>{
+    navigation.navigate("Home")
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={backToHome}>
           <CaretLeft color="#fff" size={32} weight="thin" />
         </TouchableOpacity>
 
@@ -60,19 +81,58 @@ export const Details = () => {
       <View>
         <Image
           source={{
-            uri: `https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`,
+            uri: `https://image.tmdb.org/t/p/w500${movieDetails?.backdrop_path}`,
           }}
           style={styles.detailsImage}
         />
 
         <Image
           source={{
-            uri: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
+            uri: `https://image.tmdb.org/t/p/w500${movieDetails?.poster_path}`,
           }}
           style={styles.detailsPosterImage}
         />
 
         <Text style={styles.titleMovie}>{movieDetails?.title}</Text>
+        <View style={styles.description}>
+          <View style={styles.descriptionGroup}>
+            <CalendarBlank color="#92929D" size={25} weight="thin" />
+            <Text style={styles.descriptionText}>
+              {getYear(movieDetails?.release_date)}
+            </Text>
+          </View>
+
+          <View style={styles.descriptionGroup}>
+            <Clock color="#92929D" size={25} weight="thin" />
+            <Text style={styles.descriptionText}>
+              {`${movieDetails?.runtime} minutos`}
+            </Text>
+          </View>
+
+          <View style={styles.descriptionGroup}>
+            <Star
+              color={
+                movieDetails?.vote_average.toFixed(2) >= "7"
+                  ? "#FF8766"
+                  : "#92929D"
+              }
+              size={25}
+              weight={
+                movieDetails?.vote_average.toFixed(2) >= "7"
+                  ? "duotone"
+                  : "thin"
+              }
+            />
+            <Text style={movieDetails?.vote_average.toFixed(2) >= "7" ? styles.descriptionText1 : styles.descriptionText}>
+              {movieDetails?.vote_average.toFixed(1)}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.about}>
+              <Text style={styles.aboutText}>Sinopse</Text>
+              <Text style={styles.aboutText}>S{movieDetails?.overview === "" ? "Ops! Parece que esse filme ainda não tem sinopse :(" : movieDetails?.overview}</Text>
+              
       </View>
     </View>
   );
