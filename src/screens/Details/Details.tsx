@@ -33,6 +33,8 @@ export const Details = () => {
   const { movieId } = route.params as RouteProps;
   const [loading, setLoading] = useState(false);
 
+  const { goBack } = useNavigation();
+
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
@@ -57,17 +59,12 @@ export const Details = () => {
   if (!movieDetails) {
     return null;
   }
-
-  const navigation = useNavigation();
-
-  const backToHome = () =>{
-    navigation.navigate("Home")
-  }
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={backToHome}>
+        <TouchableOpacity onPress={()=> goBack()}>
           <CaretLeft color="#fff" size={32} weight="thin" />
         </TouchableOpacity>
 
