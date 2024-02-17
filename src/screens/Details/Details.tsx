@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -16,6 +16,7 @@ import {
   Clock,
   Star,
 } from "phosphor-react-native";
+import { MovieContext, MovieProvider } from "../../context/MoviesContent";
 
 type MovieDetails = {
   id: number;
@@ -38,6 +39,8 @@ export const Details = () => {
   const route = useRoute();
   const { movieId } = route.params as RouteProps;
   const [loading, setLoading] = useState(false);
+  const { addFavoriteMovies, removeFavoriteMovies, favoriteMovies } =
+    useContext(MovieContext);
 
   const { goBack } = useNavigation();
 
@@ -75,8 +78,12 @@ export const Details = () => {
 
         <Text style={styles.headerText}>Detalhes</Text>
 
-        <TouchableOpacity>
-          <BookmarkSimple color="#fff" size={32} weight="thin" />
+        <TouchableOpacity onPress={()=> {
+          favoriteMovies.includes(movieId)
+          ? removeFavoriteMovies(movieDetails.id)
+          : addFavoriteMovies(movieDetails.id);
+        }}>
+          <BookmarkSimple color="#fff" size={32} weight={favoriteMovies.includes(movieId) ? "fill" : "light"} />
         </TouchableOpacity>
       </View>
       {loading && <ActivityIndicator size={"large"} color="#FFF" />}
