@@ -94,7 +94,7 @@ export const Home = () => {
       </View>
       {noResult && search.length > 0 && (
         <Text style={styles.noResult}>
-          Nenhun filme encontrado para "{search}"
+          Nenhum filme encontrado para "{search}"
         </Text>
       )
       }

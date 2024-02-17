@@ -1,0 +1,61 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#242A32',
+      },
+      header:{
+          padding: 20,
+      },
+      noResult:{
+          color: '#FFFFFF',
+          fontSize:18,
+          textAlign: 'center',
+          marginVertical:10,
+      },
+      headerText: {
+          marginTop: 30,
+          fontSize: 18,
+          lineHeight: 25,
+          color: '#FFFFFF',
+          fontWeight: 'bold'
+      },
+      containerInput:{
+          backgroundColor: '#67686D',
+          height: 42,
+          padding: 10,
+          borderRadius: 16,
+          marginTop: 24,
+          color: '#67686D',
+          alignItems: 'center',
+          justifyContent: "space-between", 
+          flexDirection: "row",
+      },
+      input:{
+          color: '#FFF',
+          width: '80%',
+          paddingLeft: 16,
+      },
+      contentFlat:{
+        marginBottom: 80,
+    },
+    searchEmpty: {
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      },
+      searchEmptyTitle: {
+        color: "#EBEBEF",
+        fontWeight: "600",
+        fontSize: 16,
+        marginTop: 10,
+        letterSpacing: 0.12,
+        lineHeight: 35,
+      },
+      searchEmptyText: {
+        color: "#92929D",
+        letterSpacing: 0.12,
+        lineHeight: 35,
+      },
+})
